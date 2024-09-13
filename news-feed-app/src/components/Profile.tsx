@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider, Stack, Typography, styled } from "@mui/material"
+import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material"
 import image1 from "../assets/img/team-1.jpg"
 import { Add } from "@mui/icons-material"
 import UserPost from "./UserPost"
@@ -19,9 +19,9 @@ const Profile = () => {
                         <Button variant="contained" color="primary">Edit Profile</Button>
                     </Stack>
                     <Stack direction="row" gap={3} alignItems="center" mt={3} mb={3} fontWeight={500}>
-                        <Typography variant="span">0 Posts</Typography>
-                        <Typography variant="span">0 followers</Typography>
-                        <Typography variant="span">0 following</Typography>
+                        <Typography variant="body2">0 Posts</Typography>
+                        <Typography variant="body2">0 followers</Typography>
+                        <Typography variant="body2">0 following</Typography>
                     </Stack>
                     <Typography fontWeight={600} textTransform="uppercase">Mayowa Ogungbure</Typography>
                 </Box>
