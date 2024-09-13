@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 interface PostProps {
-  posts: {id: number; creator:string; created_on: string; image: string[]; content: string}[]
+  posts: {id: number; creator:string; created_on: string; image: string; content: string}[]
 }
 //{posts}: PostProps
 
