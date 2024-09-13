@@ -48,7 +48,7 @@ function App() {
   ]
 
   interface Post {
-    id: number; name:string; username: string; image: string[]; content: string
+    id: number; creator:string; created_on: string; image: string[]; content: string
   }
   const [posts, setPosts] = useState<Post[]>([])
 

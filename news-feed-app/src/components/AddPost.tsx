@@ -28,7 +28,7 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 interface Post {
-    onAddPost: (posts: {id: number; name:string; username: string; image: string[]; content: string}) => void
+    onAddPost: (posts: {id:number; creator: string; created_on: string; image: string; content: string}) => void
 }
 
 const AddPost: React.FC<Post> = ({onAddPost}) => {
@@ -43,17 +43,39 @@ const AddPost: React.FC<Post> = ({onAddPost}) => {
             const newImageUrls = selectedFiles.map(file => URL.createObjectURL(file));
             setImages(prevImages => [...prevImages, ...newImageUrls]);            
         }
+      
     };
 
-    const handlePost = () => {
-            const newPost = {
-                id: Date.now(),
-                name: "Admin",
-                username: "admin",
-                image: images,
-                content,
+    const handlePost = async () => {
+        const formData = new FormData();
+        formData.append('creator', 'admin'); // Directly pass the username
+        images.forEach(file => {
+            formData.append('image', file); // Append the actual File object
+        });
+            formData.append('content', content);
+        console.log(formData.get('image'))
+    
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/posts/create/', {
+                method: 'POST',
+                body: formData
+            });
+            
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error:', errorData);
+                return;
             }
-            onAddPost(newPost)
+    
+            const data = await response.json();
+            console.log(data);
+    
+            onAddPost(data);  
+    
+        } catch (error) {
+            console.error('Error:', error);
+        }
             setContent('')
             setImages([])
             setOpen(false)
@@ -62,7 +84,7 @@ const AddPost: React.FC<Post> = ({onAddPost}) => {
 
   return (
     <>
-      <Tooltip title="Add Post" sx={{position:"fixed", bottom:20, left:{xs:"calc(50% - 25px)", md:30}}}>
+      <Tooltip title="Add Post" sx={{ bgcolor: "background.secondary" ,position:"fixed", bottom:20, left:{xs:"calc(50% - 25px)", md:30}}}>
         <Fab color="primary" aria-label="add" onClick={()=>setOpen(true)}>
             <Add/>
         </Fab>
@@ -101,7 +123,7 @@ const AddPost: React.FC<Post> = ({onAddPost}) => {
             <Stack direction="row" gap={1} mb={2} mt={2}>
                 <IconButton component="label">
                 <VisuallyHiddenInput
-                    type="image"
+                    type="file"
                     onChange={(event) => console.log(event.target.value)}
                     multiple
                 />
